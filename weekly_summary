@@ -1,0 +1,42 @@
+name: Weekly Summary
+
+on:
+  # Runs every Monday at 00:00 UTC
+  schedule:
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-summary:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Run weekly summary generator
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node .github/scripts/generate-weekly-summary.js
+
+      - name: Commit & push summary (if changed)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add summaries/*.md || true
+          if git diff --cached --quiet; then
+            echo "No summary changes to commit."
+            exit 0
+          fi
+          git commit -m "chore: weekly summary for $(date -u +%Y-%m-%d)"
+          git push
