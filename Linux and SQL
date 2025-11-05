@@ -1,0 +1,29 @@
+---
+title: "{{Nov-5-2025}} — Daily Learning"
+date: {{date}}
+tags: [daily, learning]
+status: draft
+difficulty: beginner
+---
+
+# {{date}} — Daily Learning
+
+TL;DR: One-sentence takeaway.
+
+What I learned:
+- 
+
+Example / code:
+```javascript
+// small snippet
+console.log("Hello learning!");
+```
+
+Resources / links:
+- [Resource name](https://...) — why it helped
+
+Questions / open problems:
+- 
+
+Next steps / TODO:
+- 
